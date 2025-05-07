@@ -8,7 +8,8 @@ import { Suspense, useEffect } from 'react';
 import { IntlProvider } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { HistoryRouter, history } from '@/routes/history';
+// import { HistoryRouter, history } from '@/routes/history';
+import { HashRouter } from 'react-router-dom';
 
 import { LocaleFormatter, localeConfig } from './locales';
 import RenderRouter from './routes';
@@ -76,7 +77,7 @@ const App: React.FC = () => {
       }}
     >
       <IntlProvider locale={locale.split('_')[0]} messages={localeConfig[locale]}>
-        <HistoryRouter history={history}>
+        <HashRouter>
           <Suspense fallback={null}>
             <Spin
               spinning={loading}
@@ -88,7 +89,7 @@ const App: React.FC = () => {
             ></Spin>
             <RenderRouter />
           </Suspense>
-        </HistoryRouter>
+        </HashRouter>
       </IntlProvider>
     </ConfigProvider>
   );
