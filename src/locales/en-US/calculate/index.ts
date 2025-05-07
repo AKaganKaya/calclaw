@@ -15,6 +15,7 @@ export const en_US_calculate = {
   "title.calculate.resultGross": "Tahmini Brüt Maaş:",
 
 
+  "app.interest.type": "Faiz Türü",
   "app.interest.warning": "Lütfen tüm alanları doldurun.",
   "app.interest.totalInterest": "Toplam İşlenen Faiz:",
   "app.interest.title": "Faiz Hesaplama",

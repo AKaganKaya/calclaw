@@ -1,9 +1,7 @@
-// src/utils/avans_faiz.ts
-
 // Faiz oranı için tip
-export interface AvansRate {
+export interface RateItem {
   startDate: string;
-  avansRate: string;
+  rate: string;
 }
 
 // Faiz detayları için tip
@@ -15,27 +13,23 @@ export interface InterestDetail {
   interest: string;
 }
 
-// Read data from the local file
-export async function fetchAvansRates(): Promise<AvansRate[]> {
-  const response = await fetch('/avans-faiz.json'); // Fetch from public directory
+// Yeni: faiz türüne göre dosya seçer
+async function fetchRates(type: 'avans' | 'yasal'): Promise<RateItem[]> {
+  const fileName = type === 'avans' ? 'avans-faiz.json' : 'yasal-faiz.json';
+  const response = await fetch(`/${fileName}`);
   if (!response.ok) {
-    throw new Error('Error fetching avans-faiz.json');
+    throw new Error(`Error fetching ${fileName}`);
   }
   return await response.json();
 }
 
 function parseDateTR(dateStr: string | Date): Date | null {
-  // Check if the date is already a Date object
   if (dateStr instanceof Date) {
     return dateStr;
   }
-
-  // Check if the date is in YYYY-MM-DD format (e.g., "2020-03-25")
   if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
     return new Date(dateStr);
   }
-
-  // Check if the date is in DD.MM.YYYY format (e.g., "25.03.2020")
   if (typeof dateStr === 'string' && dateStr.includes('.')) {
     const [day, month, year] = dateStr.split('.');
     if (!day || !month || !year) {
@@ -44,7 +38,6 @@ function parseDateTR(dateStr: string | Date): Date | null {
     }
     return new Date(`${year}-${month}-${day}`);
   }
-
   console.error('Invalid date format:', dateStr);
   return null;
 }
@@ -52,10 +45,11 @@ function parseDateTR(dateStr: string | Date): Date | null {
 export async function calculateInterest(
   startDateStr: string,
   endDateStr: string,
-  principal: number
+  principal: number,
+  type: 'avans' | 'yasal'
 ): Promise<{ totalInterest: string; interestDetails: InterestDetail[] }> {
-  const rates = await fetchAvansRates();
-  console.log('Çekilen faiz oranları:', rates);
+  const rates = await fetchRates(type);
+  console.log(`Çekilen ${type} oranları:`, rates);
 
   const startDate = parseDateTR(startDateStr);
   const endDate = parseDateTR(endDateStr);
@@ -83,7 +77,8 @@ export async function calculateInterest(
     const diffDays = Math.ceil(
       (periodEnd.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24)
     );
-    const rate = parseFloat(rates[i].avansRate);
+    const rawRate = (rates[i] as any).rate ?? (rates[i] as any).avansRate;
+    const rate = parseFloat(rawRate);
     if (isNaN(rate)) {
       console.warn(`Geçersiz faiz oranı bulundu, atlanıyor: `, rates[i]);
       continue;

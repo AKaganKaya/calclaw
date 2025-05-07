@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 import { Button, Form, InputNumber, Typography, Card, DatePicker, List, Space, message } from 'antd';
 import { useLocale } from '@/locales';
-import { calculateInterest } from '@/utils/avans_faiz';
+import { calculateInterest } from '@/utils/faiz_hesaplama';
 import dayjs from 'dayjs';
-
+import { Select } from 'antd';
 const InterestCalculator: FC = () => {
   const { formatMessage } = useLocale();
   const [principal, setPrincipal] = useState<number | null>(null);
@@ -13,7 +13,7 @@ const InterestCalculator: FC = () => {
   const [endDate, setEndDate] = useState<string | null>(null);
   const [interestResult, setInterestResult] = useState<string | null>(null);
   const [interestDetailList, setInterestDetailList] = useState<any[]>([]);
-
+  const [interestType, setInterestType] = useState<'avans' | 'yasal'>('avans');
   const handleCalculateInterest = async () => {
     if (!startDate || !endDate || !principal) {
       message.warning(
@@ -25,7 +25,12 @@ const InterestCalculator: FC = () => {
       return;
     }
 
-    const { totalInterest, interestDetails } = await calculateInterest(startDate, endDate, principal);
+    const { totalInterest, interestDetails } = await calculateInterest(
+      startDate,
+      endDate,
+      principal,
+      interestType
+    );
     setInterestResult(
       `${formatMessage({
         id: 'app.interest.totalInterest',
@@ -57,6 +62,21 @@ const InterestCalculator: FC = () => {
 
       <Card>
         <Form layout="vertical">
+          <Form.Item
+            label={formatMessage({
+              id: 'app.interest.type',
+              defaultMessage: 'Faiz Türü',
+            })}
+          >
+            <Select
+              value={interestType}
+              onChange={(value) => setInterestType(value)}
+              options={[
+                { value: 'avans', label: 'Avans Faizi' },
+                { value: 'yasal', label: 'Yasal Faiz' },
+              ]}
+            />
+          </Form.Item>
           <Form.Item
             label={formatMessage({
               id: 'app.interest.amount',
