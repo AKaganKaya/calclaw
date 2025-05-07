@@ -112,6 +112,7 @@ const LayoutPage: FC = () => {
             style={{ backgroundColor: token.token.colorBgContainer }}
             collapsedWidth={isMobile ? 0 : 80}
             collapsed={collapsed}
+            width={250}
             breakpoint="md"
           >
             <MenuComponent
@@ -140,7 +141,7 @@ const LayoutPage: FC = () => {
             />
           </Drawer>
         )}
-        <Content className="layout-page-content">
+        <Content className="layout-page-content" >
           <TagsView />
           <Suspense fallback={null}>
             <Outlet />
