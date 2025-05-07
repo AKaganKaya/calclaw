@@ -1,0 +1,1 @@
+import{u as s}from"./index.38ae5ee3.js";import{n as o,j as a,J as i,R as n}from"./vendor.9b4efd97.js";const u=()=>{const e=o(),{formatMessage:t}=s();return a(n,{status:"404",title:"404",subTitle:t({id:"gloabal.tips.notfound"}),extra:a(i,{type:"primary",onClick:()=>e("/"),children:t({id:"gloabal.tips.backHome"})})})};export{u as default};
