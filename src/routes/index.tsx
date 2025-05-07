@@ -41,7 +41,7 @@ const routeList: RouteObject[] = [
       },
       {
         path: '',
-        element: <Navigate to="guide" />,
+        element: <Navigate to="/guide" replace />,
       },
       {
         path: 'documentation',
