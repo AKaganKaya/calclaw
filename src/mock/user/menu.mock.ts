@@ -4,6 +4,15 @@ import { intercepter, mock } from '../config';
 
 const mockMenuList: MenuList = [
   {
+    code: 'main',
+    label: {
+      zh_CN: '引导',
+      en_US: 'Ana Sayfa',
+    },
+    icon: 'main',
+    path: '/',
+  },
+  {
     code: 'calculate',
     label: {
       zh_CN: '权限',
@@ -47,15 +56,7 @@ const mockMenuList: MenuList = [
     icon: 'documentation',
     path: '/documentation',
   },
-  {
-    code: 'guide',
-    label: {
-      zh_CN: '引导',
-      en_US: 'Rehber',
-    },
-    icon: 'guide',
-    path: '/guide',
-  },
+
 
 ];
 

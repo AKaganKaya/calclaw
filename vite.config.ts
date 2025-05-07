@@ -6,7 +6,7 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/calclaw/',
+  base: process.env.NODE_ENV === 'production' ? '/law-calc/' : '/', 
   resolve: {
     alias: {
       '@': path.join(__dirname, 'src'),

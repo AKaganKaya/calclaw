@@ -40,15 +40,11 @@ const routeList: RouteObject[] = [
         element: <WrapperRouteComponent element={<RentCalculatorPage />} titleId="title.calculate.rent" />,
       },
       {
-        path: '',
-        element: <Navigate to="guide" replace />,
-      },
-      {
         path: 'documentation',
         element: <WrapperRouteComponent element={<Documentation />} titleId="title.documentation" />,
       },
       {
-        path: 'guide',
+        path: '',
         element: <WrapperRouteComponent element={<Guide />} titleId="title.guide" />,
       },
       {
